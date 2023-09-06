@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "269669104910",
+    "project_id": "sapekderas",
+    "storage_bucket": "sapekderas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269669104910:android:bd469b1196563df0972b5f",
+        "android_client_info": {
+          "package_name": "com.app.sapekderas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269669104910-j21paa0o2ajgtapvbr2e368vllk9r8j0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtVsmmoU7R-x0Myq4dzcvzyc7adC0t8RM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269669104910-j21paa0o2ajgtapvbr2e368vllk9r8j0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
