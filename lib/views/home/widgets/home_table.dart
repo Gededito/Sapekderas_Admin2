@@ -17,7 +17,7 @@ class HomeTable extends StatelessWidget {
     const title = [
       "Nama",
       "Jenis Surat",
-      "Status",
+      "Tanggal",
       "Action",
     ];
 
@@ -259,7 +259,7 @@ class HomeTable extends StatelessWidget {
                                     model: models[index],
                                   )),
                               child: Container(
-                                  height: 30,
+                                  height: 50,
                                   alignment: Alignment.center,
                                   child: Text(
                                       e == "1"
@@ -270,8 +270,8 @@ class HomeTable extends StatelessWidget {
                                                   .name
                                                   .toUpperCase()
                                               : models[index]
-                                                  .status
-                                                  .toFirstUpperCase(),
+                                                  .createdAt
+                                                  .dateString(),
                                       style: FontsUtils.poppins(
                                           fontSize: 12,
                                           fontWeight: FontWeight.normal))),
@@ -280,7 +280,7 @@ class HomeTable extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 120),
+        const SizedBox(height: 150),
       ],
     );
   }
