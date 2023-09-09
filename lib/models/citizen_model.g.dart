@@ -18,6 +18,7 @@ CitizenModel _$CitizenModelFromJson(Map json) => CitizenModel(
       job: json['job'] as String? ?? "",
       rtrw: json['rtrw'] as String? ?? "",
       address: json['address'] as String? ?? "",
+      informations: json['informations'] as String? ?? "",
       statusMarried: json['status_married'] as String? ?? "",
     );
 
@@ -34,5 +35,6 @@ Map<String, dynamic> _$CitizenModelToJson(CitizenModel instance) =>
       'job': instance.job,
       'rtrw': instance.rtrw,
       'address': instance.address,
+      'informations': instance.informations,
       'status_married': instance.statusMarried,
     };

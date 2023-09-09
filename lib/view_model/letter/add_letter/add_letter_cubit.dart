@@ -123,6 +123,7 @@ class AddLetterCubit extends Cubit<AddLetterState> {
       statusMarried: "Belum Kawin",
       job: "Mahasiswa",
       address: "Jalan asdasda dadasd",
+      informations: "Tidak ada keterangan",
       createdAt: DateTime.now(),
       status: StatusLetter.success,
     );

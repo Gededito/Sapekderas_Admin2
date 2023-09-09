@@ -79,7 +79,8 @@ class LetterDonwloadCubit extends Cubit<LetterDonwloadState> {
             "${model.religion}/${model.nationality}"))
         ..add(TextContent("keymaritalstatus", model.statusMarried))
         ..add(TextContent("keyjob", model.job))
-        ..add(TextContent("keyaddress", model.address));
+        ..add(TextContent("keyaddress", model.address))
+        ..add(TextContent("keyinformations", model.informations));
 
       final docGenerated = await docx.generate(content);
       String filePath = "/storage/emulated/0/Download/SKU ${model.name}.docx";
@@ -126,7 +127,8 @@ class LetterDonwloadCubit extends Cubit<LetterDonwloadState> {
         ..add(TextContent("keyrelogion", model.religion))
         ..add(TextContent("keystatus", model.statusMarried))
         ..add(TextContent("keyjob", model.job))
-        ..add(TextContent("keyaddress", model.address));
+        ..add(TextContent("keyaddress", model.address))
+        ..add(TextContent("keyinformations", model.informations));
 
       final docGenerated = await docx.generate(content);
       String filePath = "/storage/emulated/0/Download/SKTM ${model.name}.docx";
@@ -172,7 +174,8 @@ class LetterDonwloadCubit extends Cubit<LetterDonwloadState> {
         ..add(TextContent("keycountry", "Indonesia"))
         ..add(TextContent("keystatusmarried", model.statusMarried))
         ..add(TextContent("keyjob", model.job))
-        ..add(TextContent("keyaddress", model.address));
+        ..add(TextContent("keyaddress", model.address))
+        ..add(TextContent("keyinformations", model.informations));
 
       final docGenerated = await docx.generate(content);
       String filePath = "/storage/emulated/0/Download/SKCK ${model.name}.docx";

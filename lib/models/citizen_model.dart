@@ -19,6 +19,7 @@ class CitizenModel extends Equatable {
   final String job;
   final String rtrw;
   final String address;
+  final String informations;
 
   @JsonKey(name: 'status_married')
   final String statusMarried;
@@ -35,6 +36,7 @@ class CitizenModel extends Equatable {
     this.job = "",
     this.rtrw = "",
     this.address = "",
+    this.informations = "",
     this.statusMarried = "",
   });
 
@@ -57,6 +59,7 @@ class CitizenModel extends Equatable {
       job,
       rtrw,
       address,
+      informations,
       statusMarried
     ];
   }
@@ -73,6 +76,7 @@ class CitizenModel extends Equatable {
     String? job,
     String? rtrw,
     String? address,
+    String? informations,
     String? statusMarried,
   }) {
     return CitizenModel(
@@ -87,6 +91,7 @@ class CitizenModel extends Equatable {
       job: job ?? this.job,
       rtrw: rtrw ?? this.rtrw,
       address: address ?? this.address,
+      informations: informations ?? this.informations,
       statusMarried: statusMarried ?? this.statusMarried,
     );
   }

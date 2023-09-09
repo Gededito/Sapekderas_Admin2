@@ -32,6 +32,7 @@ class _LetterFormViewState extends State<LetterFormView> {
   late TextEditingController rtController;
   late TextEditingController nationalityController;
   late TextEditingController addressController;
+  late TextEditingController informationController;
 
   /// Dropdonw
   String? valueGender;
@@ -66,7 +67,117 @@ class _LetterFormViewState extends State<LetterFormView> {
 
   DateTime? initialDate;
   String? valueDatebirth;
+
   late bool isEdit;
+  bool _isSearching = false;
+
+  void _performSearch() {
+    setState(() {
+      if (nikController.text.length != 16) {
+        Fluttertoast.showToast(
+          msg: "NIK harus 16 angka", backgroundColor: Colors.red
+        );
+
+        return;
+      }
+
+      context.read<GetCitizenCubit>().searchNikCitizen(
+        nikController.text,
+        type: SearchType.main
+      );
+
+      _isSearching = true;
+    });
+  }
+
+  void _performSearchFather() {
+    setState(() {
+      if (nikFatherController.text.length != 16) {
+        Fluttertoast.showToast(
+          msg: "NIK harus 16 angka", backgroundColor: Colors.red
+        );
+
+        return;
+      }
+
+      context.read<GetCitizenCubit>().searchNikCitizen(
+        nikFatherController.text,
+        type: SearchType.father
+      );
+
+      _isSearching = true;
+    });
+  }
+
+  void _performSearchMother() {
+    setState(() {
+      if (nikMotherController.text.length != 16) {
+        Fluttertoast.showToast(
+          msg: "NIK harus 16 angka", backgroundColor: Colors.red
+        );
+
+        return;
+      }
+
+      context.read<GetCitizenCubit>().searchNikCitizen(
+        nikMotherController.text,
+        type: SearchType.mother
+      );
+
+      _isSearching = true;
+    });
+  }
+
+  void _searchSubmit() {
+    if (nikController.text.length != 16) {
+      Fluttertoast.showToast(
+        msg: "NIK harus 16 angka", backgroundColor: Colors.red
+      );
+
+      return;
+    }
+
+    context.read<GetCitizenCubit>().searchNikCitizen(
+      nikController.text,
+      type: SearchType.main
+    );
+
+    _isSearching = true;
+  }
+
+  void _searchSubmitFather() {
+    if (nikFatherController.text.length != 16) {
+      Fluttertoast.showToast(
+        msg: "NIK harus 16 angka", backgroundColor: Colors.red
+      );
+
+      return;
+    }
+
+    context.read<GetCitizenCubit>().searchNikCitizen(
+      nikFatherController.text,
+      type: SearchType.father
+    );
+
+    _isSearching = true;
+  }
+
+  void _searchSubmitMother() {
+    if (nikMotherController.text.length != 16) {
+      Fluttertoast.showToast(
+        msg: "NIK harus 16 angka", backgroundColor: Colors.red
+      );
+
+      return;
+    }
+
+    context.read<GetCitizenCubit>().searchNikCitizen(
+      nikMotherController.text,
+      type: SearchType.mother
+    );
+
+    _isSearching = true;
+  }
 
   // Father Contoller
   late TextEditingController nameFatherController;
@@ -117,7 +228,7 @@ class _LetterFormViewState extends State<LetterFormView> {
   void initState() {
     super.initState();
     isEdit = widget.args.crud != Crud.read;
-    isEdit = true;
+    _isSearching;
     kkController =
         TextEditingController(text: widget.args.model?.kk.toString() ?? "");
     namaController = TextEditingController(text: widget.args.model?.name ?? "");
@@ -131,6 +242,7 @@ class _LetterFormViewState extends State<LetterFormView> {
     nationalityController = TextEditingController(
         text: widget.args.model?.nationality ?? "Indonesia");
     rtController = TextEditingController(text: widget.args.model?.rtrw);
+    informationController = TextEditingController(text: widget.args.model?.informations ?? "");
 
     valueGender = widget.args.model?.gender == null
         ? null
@@ -335,6 +447,7 @@ class _LetterFormViewState extends State<LetterFormView> {
               nationality: nationalityController.text,
               religion: valueReligion ?? "",
               address: addressController.text,
+              informations: informationController.text,
               statusMarried: statusMarried ?? "",
               status: StatusLetter.progress,
               dob: initialDate,
@@ -358,6 +471,7 @@ class _LetterFormViewState extends State<LetterFormView> {
               nationality: nationalityController.text,
               religion: valueReligion ?? "",
               address: addressController.text,
+              informations: informationController.text,
               statusMarried: statusMarried ?? "",
               status: status ?? StatusLetter.progress,
               dob: initialDate,
@@ -373,6 +487,7 @@ class _LetterFormViewState extends State<LetterFormView> {
     }
   }
 
+  /// Menambahkan Keterangan
   bool _submitSku() {
     if (namaController.text == "") {
       Fluttertoast.showToast(
@@ -402,6 +517,10 @@ class _LetterFormViewState extends State<LetterFormView> {
       Fluttertoast.showToast(
           msg: "Alamat tidak boleh kosong", backgroundColor: Colors.red);
       return true;
+    } else if (informationController.text == "") {
+      Fluttertoast.showToast(
+        msg: "Keterangan tidak boleh kosong", backgroundColor: Colors.red);
+      return true;
     } else if (statusMarried == null) {
       Fluttertoast.showToast(
           msg: "Pilih status perkawinan", backgroundColor: Colors.red);
@@ -410,6 +529,7 @@ class _LetterFormViewState extends State<LetterFormView> {
     return false;
   }
 
+  /// Menambahkan Keterangan
   bool _submitSkck() {
     if (namaController.text == "") {
       Fluttertoast.showToast(
@@ -443,6 +563,11 @@ class _LetterFormViewState extends State<LetterFormView> {
       Fluttertoast.showToast(
           msg: "Alamat tidak boleh kosong", backgroundColor: Colors.red);
       return true;
+    } else if (informationController.text == "") {
+      Fluttertoast.showToast(
+        msg: "Keterangan tidak boleh kosong", backgroundColor: Colors.red
+      );
+      return true;
     } else if (statusMarried == null) {
       Fluttertoast.showToast(
           msg: "Pilih status perkawinan", backgroundColor: Colors.red);
@@ -451,6 +576,7 @@ class _LetterFormViewState extends State<LetterFormView> {
     return false;
   }
 
+  /// Menambahkan Keterangan
   bool _submitSktm() {
     if (namaController.text == "") {
       Fluttertoast.showToast(
@@ -483,6 +609,11 @@ class _LetterFormViewState extends State<LetterFormView> {
     } else if (addressController.text == "") {
       Fluttertoast.showToast(
           msg: "Alamat tidak boleh kosong", backgroundColor: Colors.red);
+      return true;
+    } else if (informationController.text == "") {
+      Fluttertoast.showToast(
+        msg: "Keterangan tidak boleh kosong", backgroundColor: Colors.red
+      );
       return true;
     } else if (statusMarried == null) {
       Fluttertoast.showToast(
@@ -753,6 +884,7 @@ class _LetterFormViewState extends State<LetterFormView> {
     jobController.dispose();
     nationalityController.dispose();
     addressController.dispose();
+    informationController.dispose();
     super.dispose();
   }
 
@@ -781,6 +913,7 @@ class _LetterFormViewState extends State<LetterFormView> {
                   birthPlaceController.text = data.birthPlace;
                   jobController.text = data.job;
                   addressController.text = data.address;
+                  informationController.text = data.informations;
                   nationalityController.text = "Indonesia";
                   valueGender = data.gender;
                   valueDatebirth =
@@ -799,7 +932,7 @@ class _LetterFormViewState extends State<LetterFormView> {
                   jobFatherController.text = data.job;
                   addressFatherController.text = data.address;
                   rtFatherController.text = data.rtrw;
-
+                  informationController.text = data.informations;
                   valueReligionFather = data.religion;
                   initialDateFather = data.dob;
                   valueDatebirthFather =
@@ -814,7 +947,7 @@ class _LetterFormViewState extends State<LetterFormView> {
                   jobMotherController.text = data.job;
                   addressMotherController.text = data.address;
                   rtMotherController.text = data.rtrw;
-
+                  informationController.text = data.informations;
                   valueReligionMother =
                       data.religion == "" ? null : data.religion;
                   initialDateMother = data.dob;
@@ -944,34 +1077,14 @@ class _LetterFormViewState extends State<LetterFormView> {
             controller: nikController,
             keyboardType: TextInputType.number,
             maxLength: 16,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             textInputAction: TextInputAction.search,
             suffixIcon: IconButton(
-              onPressed: () {
-                if (nikController.text.length != 16) {
-                  Fluttertoast.showToast(
-                      msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                  return;
-                }
-
-                context.read<GetCitizenCubit>().searchNikCitizen(
-                    nikController.text,
-                    type: SearchType.main);
-              },
+              onPressed: _performSearch,
               icon: const Icon(Icons.search),
             ),
             onFieldSubmitted: (value) {
-              if (nikController.text.length != 16) {
-                Fluttertoast.showToast(
-                    msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                return;
-              }
-
-              context
-                  .read<GetCitizenCubit>()
-                  .searchNikCitizen(nikController.text, type: SearchType.main);
+              _performSearch();
             },
           ),
           if (type == LetterType.sktps)
@@ -980,18 +1093,18 @@ class _LetterFormViewState extends State<LetterFormView> {
               controller: kkController,
               keyboardType: TextInputType.number,
               maxLength: 16,
-              enabled: isEdit,
+              enabled: _isSearching ? !isEdit : isEdit,
             ),
           TextFieldBorder(
             title: 'Nama',
             controller: namaController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           AddUserDropDownn(
             title: "Jenis Kelamin",
             value: valueGender,
             items: genders,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueGender = value;
@@ -1001,11 +1114,11 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Tempat\nLahir',
             controller: birthPlaceController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirth,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1025,7 +1138,7 @@ class _LetterFormViewState extends State<LetterFormView> {
             title: "Agama",
             value: valueReligion,
             items: religions,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueReligion = value;
@@ -1036,14 +1149,14 @@ class _LetterFormViewState extends State<LetterFormView> {
             TextFieldBorder(
               title: 'Kewarganegaraan',
               controller: nationalityController,
-              enabled: isEdit,
+              enabled: _isSearching ? !isEdit : isEdit,
             ),
           if (type != LetterType.skbm)
             AddUserDropDownn(
               title: "Status Perkawinan",
               value: statusMarried,
               items: statusMarrieds,
-              isEdit: isEdit,
+              isEdit: _isSearching ? !isEdit : isEdit,
               onChange: (value) {
                 setState(() {
                   statusMarried = value;
@@ -1054,18 +1167,24 @@ class _LetterFormViewState extends State<LetterFormView> {
             TextFieldBorder(
               title: 'Pekerjaan',
               controller: jobController,
-              enabled: isEdit,
+              enabled: _isSearching ? !isEdit : isEdit,
             ),
           RtTextField(
             controller: rtController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
+          ),
+          TextFieldBorder(
+            title: 'Keterangan',
+            controller: informationController,
+            enabled: _isSearching ? !isEdit : isEdit,
+            maxLines: 4,
           ),
         ],
       );
@@ -1078,50 +1197,30 @@ class _LetterFormViewState extends State<LetterFormView> {
             controller: nikController,
             keyboardType: TextInputType.number,
             maxLength: 16,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             textInputAction: TextInputAction.search,
             suffixIcon: IconButton(
-              onPressed: () {
-                if (nikController.text.length != 16) {
-                  Fluttertoast.showToast(
-                      msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                  return;
-                }
-
-                context.read<GetCitizenCubit>().searchNikCitizen(
-                    nikController.text,
-                    type: SearchType.main);
-              },
+              onPressed: _performSearch,
               icon: const Icon(Icons.search),
             ),
             onFieldSubmitted: (value) {
-              if (nikController.text.length != 16) {
-                Fluttertoast.showToast(
-                    msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                return;
-              }
-
-              context
-                  .read<GetCitizenCubit>()
-                  .searchNikCitizen(nikController.text, type: SearchType.main);
+              _searchSubmit();
             },
           ),
           TextFieldBorder(
             title: 'Nama',
             controller: namaController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
 
           TextFieldBorder(
             title: 'Tempat\nLahir',
             controller: birthPlaceController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirth,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1141,7 +1240,7 @@ class _LetterFormViewState extends State<LetterFormView> {
             title: "Agama",
             value: valueReligion,
             items: religions,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueReligion = value;
@@ -1151,23 +1250,23 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Kewarganegaraan',
             controller: nationalityController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           if (type != LetterType.skbm)
             TextFieldBorder(
               title: 'Pekerjaan',
               controller: jobController,
-              enabled: isEdit,
+              enabled: _isSearching ? !isEdit : isEdit,
             ),
 
           RtTextField(
             controller: rtController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
@@ -1183,11 +1282,11 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Nama Kegiatan',
             controller: activityController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirthActivity,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             title: "Tanggal",
             onTap: () async {
               final datePick = await showDatePicker(
@@ -1206,12 +1305,12 @@ class _LetterFormViewState extends State<LetterFormView> {
           ),
           RtTextField(
             controller: rtActivityController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: activityAddressController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
@@ -1225,16 +1324,16 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Nama',
             controller: namaController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           RtTextField(
             controller: rtRipController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
@@ -1250,25 +1349,25 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Nama',
             controller: nameRipController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressRipController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
           TextFieldBorder(
             title: 'Umur',
             controller: ageRipController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             keyboardType: TextInputType.number,
           ),
 
           DatebirthField(
             value: valueDatebirthRip,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             title: "Tanggal",
             onTap: () async {
               final datePick = await showDatePicker(
@@ -1289,7 +1388,7 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Lokasi',
             controller: locationRipController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Disebabkan Karena',
@@ -1309,46 +1408,26 @@ class _LetterFormViewState extends State<LetterFormView> {
             controller: nikController,
             keyboardType: TextInputType.number,
             maxLength: 16,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             textInputAction: TextInputAction.search,
             suffixIcon: IconButton(
-              onPressed: () {
-                if (nikController.text.length != 16) {
-                  Fluttertoast.showToast(
-                      msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                  return;
-                }
-
-                context.read<GetCitizenCubit>().searchNikCitizen(
-                    nikController.text,
-                    type: SearchType.main);
-              },
+              onPressed: _performSearch,
               icon: const Icon(Icons.search),
             ),
             onFieldSubmitted: (value) {
-              if (nikController.text.length != 16) {
-                Fluttertoast.showToast(
-                    msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                return;
-              }
-
-              context
-                  .read<GetCitizenCubit>()
-                  .searchNikCitizen(nikController.text, type: SearchType.main);
+              _performSearch();
             },
           ),
           TextFieldBorder(
             title: 'Nama',
             controller: namaController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           AddUserDropDownn(
             title: "Jenis Kelamin",
             value: valueGender,
             items: genders,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueGender = value;
@@ -1358,11 +1437,11 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Tempat\nLahir',
             controller: birthPlaceController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirth,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1382,7 +1461,7 @@ class _LetterFormViewState extends State<LetterFormView> {
             title: "Agama",
             value: valueReligion,
             items: religions,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueReligion = value;
@@ -1393,22 +1472,22 @@ class _LetterFormViewState extends State<LetterFormView> {
             TextFieldBorder(
               title: 'Kewarganegaraan',
               controller: nationalityController,
-              enabled: isEdit,
+              enabled: _isSearching ? !isEdit : isEdit,
             ),
           if (type != LetterType.skbm)
             TextFieldBorder(
               title: 'Pekerjaan',
               controller: jobController,
-              enabled: isEdit,
+              enabled: _isSearching ? !isEdit : isEdit,
             ),
           RtTextField(
             controller: rtController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
@@ -1426,50 +1505,29 @@ class _LetterFormViewState extends State<LetterFormView> {
             controller: nikFatherController,
             keyboardType: TextInputType.number,
             maxLength: 16,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             textInputAction: TextInputAction.search,
             suffixIcon: IconButton(
-              onPressed: () {
-                if (nikFatherController.text.length != 16) {
-                  Fluttertoast.showToast(
-                      msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                  return;
-                }
-
-                context.read<GetCitizenCubit>().searchNikCitizen(
-                    nikFatherController.text,
-                    type: SearchType.father);
-              },
+              onPressed: _performSearchFather,
               icon: const Icon(Icons.search),
             ),
             onFieldSubmitted: (value) {
-              if (nikFatherController.text.length != 16) {
-                Fluttertoast.showToast(
-                    msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                return;
-              }
-
-              context.read<GetCitizenCubit>().searchNikCitizen(
-                  nikFatherController.text,
-                  type: SearchType.father);
+              _searchSubmitFather();
             },
           ),
-
           TextFieldBorder(
             title: 'Nama',
             controller: nameFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Tempat\nLahir',
             controller: birthPlaceFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirthFather,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1489,7 +1547,7 @@ class _LetterFormViewState extends State<LetterFormView> {
             title: "Agama",
             value: valueReligionFather,
             items: religions,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueReligionFather = value;
@@ -1499,21 +1557,21 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Kewarganegaraan',
             controller: nationalityFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Pekerjaan',
             controller: jobFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           RtTextField(
             controller: rtFatherController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
@@ -1530,49 +1588,29 @@ class _LetterFormViewState extends State<LetterFormView> {
             controller: nikMotherController,
             keyboardType: TextInputType.number,
             maxLength: 16,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             textInputAction: TextInputAction.search,
             suffixIcon: IconButton(
-              onPressed: () {
-                if (nikMotherController.text.length != 16) {
-                  Fluttertoast.showToast(
-                      msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                  return;
-                }
-
-                context.read<GetCitizenCubit>().searchNikCitizen(
-                    nikMotherController.text,
-                    type: SearchType.mother);
-              },
+              onPressed: _performSearchMother,
               icon: const Icon(Icons.search),
             ),
             onFieldSubmitted: (value) {
-              if (nikMotherController.text.length != 16) {
-                Fluttertoast.showToast(
-                    msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                return;
-              }
-
-              context.read<GetCitizenCubit>().searchNikCitizen(
-                  nikController.text,
-                  type: SearchType.mother);
+              _searchSubmitMother();
             },
           ),
           TextFieldBorder(
             title: 'Nama',
             controller: nameMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Tempat\nLahir',
             controller: birthPlaceMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirthMother,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1592,7 +1630,7 @@ class _LetterFormViewState extends State<LetterFormView> {
             title: "Agama",
             value: valueReligionMother,
             items: religions,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueReligionMother = value;
@@ -1602,21 +1640,21 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Kewarganegaraan',
             controller: nationalityMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Pekerjaan',
             controller: jobMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           RtTextField(
             controller: rtMotherController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
@@ -1639,13 +1677,13 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Nama',
             controller: namaController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           AddUserDropDownn(
             title: "Jenis Kelamin",
             value: valueGender,
             items: genders,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueGender = value;
@@ -1654,7 +1692,7 @@ class _LetterFormViewState extends State<LetterFormView> {
           ),
           DatebirthField(
             value: valueDatebirth,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1685,50 +1723,30 @@ class _LetterFormViewState extends State<LetterFormView> {
             controller: nikFatherController,
             keyboardType: TextInputType.number,
             maxLength: 16,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             textInputAction: TextInputAction.search,
             suffixIcon: IconButton(
-              onPressed: () {
-                if (nikFatherController.text.length != 16) {
-                  Fluttertoast.showToast(
-                      msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                  return;
-                }
-
-                context.read<GetCitizenCubit>().searchNikCitizen(
-                    nikFatherController.text,
-                    type: SearchType.father);
-              },
+              onPressed: _performSearchFather,
               icon: const Icon(Icons.search),
             ),
             onFieldSubmitted: (value) {
-              if (nikFatherController.text.length != 16) {
-                Fluttertoast.showToast(
-                    msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                return;
-              }
-
-              context.read<GetCitizenCubit>().searchNikCitizen(
-                  nikController.text,
-                  type: SearchType.father);
+              _searchSubmitFather();
             },
           ),
 
           TextFieldBorder(
             title: 'Nama',
             controller: nameFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Tempat\nLahir',
             controller: birthPlaceFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirthFather,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1748,7 +1766,7 @@ class _LetterFormViewState extends State<LetterFormView> {
             title: "Agama",
             value: valueReligionFather,
             items: religions,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueReligionFather = value;
@@ -1758,21 +1776,21 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Kewarganegaraan',
             controller: nationalityFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Pekerjaan',
             controller: jobFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           RtTextField(
             controller: rtFatherController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressFatherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
           ),
@@ -1789,50 +1807,30 @@ class _LetterFormViewState extends State<LetterFormView> {
             controller: nikMotherController,
             keyboardType: TextInputType.number,
             maxLength: 16,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             textInputAction: TextInputAction.search,
             suffixIcon: IconButton(
-              onPressed: () {
-                if (nikMotherController.text.length != 16) {
-                  Fluttertoast.showToast(
-                      msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                  return;
-                }
-
-                context.read<GetCitizenCubit>().searchNikCitizen(
-                    nikMotherController.text,
-                    type: SearchType.mother);
-              },
+              onPressed: _performSearchMother,
               icon: const Icon(Icons.search),
             ),
             onFieldSubmitted: (value) {
-              if (nikMotherController.text.length != 16) {
-                Fluttertoast.showToast(
-                    msg: "NIK harus 16 angka", backgroundColor: Colors.red);
-
-                return;
-              }
-
-              context.read<GetCitizenCubit>().searchNikCitizen(
-                  nikController.text,
-                  type: SearchType.mother);
+              _searchSubmitMother();
             },
           ),
 
           TextFieldBorder(
             title: 'Nama',
             controller: nameMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Tempat\nLahir',
             controller: birthPlaceMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           DatebirthField(
             value: valueDatebirthMother,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onTap: () async {
               final datePick = await showDatePicker(
                 context: context,
@@ -1852,7 +1850,7 @@ class _LetterFormViewState extends State<LetterFormView> {
             title: "Agama",
             value: valueReligionMother,
             items: religions,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
             onChange: (value) {
               setState(() {
                 valueReligionMother = value;
@@ -1862,23 +1860,29 @@ class _LetterFormViewState extends State<LetterFormView> {
           TextFieldBorder(
             title: 'Kewarganegaraan',
             controller: nationalityMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Pekerjaan',
             controller: jobMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
           ),
           RtTextField(
             controller: rtMotherController,
-            isEdit: isEdit,
+            isEdit: _isSearching ? !isEdit : isEdit,
           ),
           TextFieldBorder(
             title: 'Alamat',
             controller: addressMotherController,
-            enabled: isEdit,
+            enabled: _isSearching ? !isEdit : isEdit,
             maxLines: 4,
             // maxLength: 300,
+          ),
+          TextFieldBorder(
+            title: 'Keterangan',
+            controller: informationController,
+            enabled: _isSearching ? !isEdit : isEdit,
+            maxLines: 4,
           ),
         ],
       );
