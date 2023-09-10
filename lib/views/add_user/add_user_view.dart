@@ -50,7 +50,9 @@ class _AddUserViewState extends State<AddUserView> {
   String? valueReligion;
   DateTime? initialDate;
   String? valueDatebirth;
+
   late bool isEdit;
+  final bool _isSearching = false;
 
   String? statusMarried;
   List<String> statusMarrieds = [
@@ -64,6 +66,7 @@ class _AddUserViewState extends State<AddUserView> {
   void initState() {
     super.initState();
     isEdit = widget.args.crud != Crud.read;
+    _isSearching;
     kkController =
         TextEditingController(text: widget.args.model?.kk.toString() ?? "");
     namaController = TextEditingController(text: widget.args.model?.name ?? "");
@@ -111,25 +114,25 @@ class _AddUserViewState extends State<AddUserView> {
                   controller: nikController,
                   keyboardType: TextInputType.number,
                   maxLength: 16,
-                  enabled: isEdit,
+                  enabled: _isSearching ? !isEdit : isEdit,
                 ),
                 TextFieldBorder(
                   title: 'No. KK',
                   controller: kkController,
                   keyboardType: TextInputType.number,
                   maxLength: 16,
-                  enabled: isEdit,
+                  enabled: _isSearching ? !isEdit : isEdit,
                 ),
                 TextFieldBorder(
                   title: 'Nama',
                   controller: namaController,
-                  enabled: isEdit,
+                  enabled: _isSearching ? !isEdit : isEdit,
                 ),
                 AddUserDropDownn(
                   title: "Jenis Kelamin",
                   value: valueGender,
                   items: genders,
-                  isEdit: isEdit,
+                  isEdit: _isSearching ? !isEdit : isEdit,
                   onChange: (value) {
                     setState(() {
                       valueGender = value;
@@ -139,31 +142,33 @@ class _AddUserViewState extends State<AddUserView> {
                 TextFieldBorder(
                   title: 'Tempat\nLahir',
                   controller: birthPlaceController,
-                  enabled: isEdit,
+                  enabled: _isSearching ? !isEdit : isEdit,
                 ),
                 DatebirthField(
                   value: valueDatebirth,
-                  isEdit: isEdit,
+                  isEdit: _isSearching ? !isEdit : isEdit,
                   onTap: () async {
-                    final datePick = await showDatePicker(
-                      context: context,
-                      initialDate: initialDate ?? DateTime(1945, 1, 1),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                    );
-                    if (datePick != null) {
-                      initialDate = datePick;
-                      valueDatebirth =
-                          "${datePick.day} - ${datePick.month} - ${datePick.year}";
+                    if (!_isSearching) {
+                      final datePick = await showDatePicker(
+                        context: context,
+                        initialDate: initialDate ?? DateTime(1945, 1, 1),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                      );
+                      if (datePick != null) {
+                        initialDate = datePick;
+                        valueDatebirth =
+                        "${datePick.day} - ${datePick.month} - ${datePick.year}";
+                      }
+                      setState(() {});
                     }
-                    setState(() {});
                   },
                 ),
                 AddUserDropDownn(
                   title: "Agama",
                   value: valueReligion,
                   items: religions,
-                  isEdit: isEdit,
+                  isEdit: _isSearching ? !isEdit : isEdit,
                   onChange: (value) {
                     setState(() {
                       valueReligion = value;
@@ -174,7 +179,7 @@ class _AddUserViewState extends State<AddUserView> {
                   title: "Status Perkawinan",
                   value: statusMarried,
                   items: statusMarrieds,
-                  isEdit: isEdit,
+                  isEdit: _isSearching ? !isEdit : isEdit,
                   onChange: (value) {
                     setState(() {
                       statusMarried = value;
@@ -184,11 +189,11 @@ class _AddUserViewState extends State<AddUserView> {
                 TextFieldBorder(
                   title: 'Pekerjaan',
                   controller: jobController,
-                  enabled: isEdit,
+                  enabled: _isSearching ? !isEdit : isEdit,
                 ),
                 RtTextField(
                   controller: rtController,
-                  isEdit: isEdit,
+                  isEdit: _isSearching ? !isEdit : isEdit,
                 ),
                 // TextFieldBorder(
                 //   title: 'RT',
@@ -207,7 +212,7 @@ class _AddUserViewState extends State<AddUserView> {
                 TextFieldBorder(
                   title: 'Alamat',
                   controller: addressController,
-                  enabled: isEdit,
+                  enabled: _isSearching ? !isEdit : isEdit,
                   maxLines: 4,
                 ),
                 if (widget.args.crud == Crud.create ||
