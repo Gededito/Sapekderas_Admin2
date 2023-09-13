@@ -21,6 +21,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       password: fields[1] as String,
       id: fields[2] as String,
       name: fields[3] as String,
+      isVerified: fields[4] as bool,
     );
   }
 
@@ -35,7 +36,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(2)
       ..write(obj.id)
       ..writeByte(3)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(4)
+      ..write(obj.isVerified);
   }
 
   @override
@@ -58,6 +61,7 @@ UserModel _$UserModelFromJson(Map json) => UserModel(
       password: json['password'] as String,
       id: json['id'] as String,
       name: json['name'] as String? ?? "",
+      isVerified: json['isVerified'] as bool? ?? false
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -65,4 +69,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'password': instance.password,
       'id': instance.id,
       'name': instance.name,
+      'isVerified': instance.isVerified
     };

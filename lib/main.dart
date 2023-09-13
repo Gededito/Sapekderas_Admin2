@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sapekderas/routes/routes.dart';
 import 'package:sapekderas/utils/utils.dart';
+import 'package:sapekderas/view_model/auth/cubit/get_user_cubit.dart';
 import 'package:sapekderas/view_model/letter/letter_donwoad/letter_donwload_cubit.dart';
 
 import 'firebase_options.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LetterDonwloadCubit()),
         BlocProvider(create: (context) => AddLetterCubit()),
         BlocProvider(create: (context) => GetLetterCubit()),
+        BlocProvider(create: (context) => GetUserCubit())
       ],
       child: MaterialApp(
         title: 'Sapekderas Admin',

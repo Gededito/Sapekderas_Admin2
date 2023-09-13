@@ -280,7 +280,7 @@ class HomeTable extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 150),
+        const SizedBox(height: 30),
       ],
     );
   }

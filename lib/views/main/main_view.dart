@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sapekderas/utils/utils.dart';
+import 'package:sapekderas/view_model/auth/cubit/get_user_cubit.dart';
 import 'package:sapekderas/view_model/citizen/get_citizen/get_citizen_cubit.dart';
 
 import '../../view_model/letter/get_letter/get_letter_cubit.dart';
@@ -35,6 +36,7 @@ class _MainViewState extends State<MainView> {
     currentIndex = widget.initialPage;
     context.read<GetCitizenCubit>().getAllCitizen();
     context.read<GetLetterCubit>().getAllData();
+    context.read<GetUserCubit>().getAllData();
   }
 
   @override

@@ -49,7 +49,7 @@ class LoginCubit extends Cubit<LoginState> {
   void addAdmin() async {
     final password = _hashPassword("12345678");
     final id = const Uuid().v4();
-    final user = UserModel(email: "test@gmail.com", password: password, id: id);
+    final user = UserModel(email: "test@gmail.com", password: password, id: id, isVerified: true);
     final querySnapshot =
         await collection.where('email', isEqualTo: user.email).get();
     if (querySnapshot.docs.isEmpty) {

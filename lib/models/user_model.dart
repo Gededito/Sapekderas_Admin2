@@ -19,11 +19,15 @@ class UserModel extends Equatable {
   @HiveField(3)
   final String name;
 
+  @HiveField(4)
+  final bool isVerified;
+
   const UserModel({
     required this.email,
     required this.password,
     required this.id,
     this.name = "",
+    this.isVerified = false,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -32,5 +36,5 @@ class UserModel extends Equatable {
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   @override
-  List<Object?> get props => [email, password, id, name];
+  List<Object?> get props => [email, password, id, name, isVerified];
 }
