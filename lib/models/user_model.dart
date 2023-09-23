@@ -20,9 +20,9 @@ class UserModel extends Equatable {
   final String name;
 
   @HiveField(4)
-  final bool isVerified;
+  bool isVerified;
 
-  const UserModel({
+  UserModel({
     required this.email,
     required this.password,
     required this.id,

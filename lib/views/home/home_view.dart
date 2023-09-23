@@ -2,9 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sapekderas/view_model/auth/cubit/get_user_cubit.dart';
-import 'package:sapekderas/view_model/auth/cubit/get_user_state.dart';
 import 'package:sapekderas/view_model/letter/get_letter/get_letter_cubit.dart';
-import 'package:sapekderas/views/home/widgets/home_table_verify.dart';
 
 import '../../utils/utils.dart';
 import '../../view_model/letter/add_letter/add_letter_cubit.dart';
@@ -18,6 +16,7 @@ class HomeView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () async {
         context.read<GetLetterCubit>().getAllData();
+        context.read<GetUserCubit>().getAllData();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -54,19 +53,19 @@ class HomeView extends StatelessWidget {
                           models: [], titleApp: "Surat belum diambil");
                     },
                   ),
-                  BlocBuilder<GetUserCubit, GetUserState>(
-                    builder: (context, state) {
-                      if (state is GetUserSuccess) {
-                        return HomeTableVerify(
-                          models: state.progressData,
-                          titleApp: "Verifikasi Pengguna",
-                        );
-                      }
-                      return const HomeTableVerify(
-                        models: [], titleApp: "Verifikasi Penggunaa",
-                      );
-                    },
-                  )
+                  const HomeTableVerify(model: []),
+                  // BlocBuilder<GetUserCubit, GetUserState>(
+                  //   builder: (context, state) {
+                  //     if (state is GetUserSuccess) {
+                  //       return HomeTableVerify(
+                  //         titleApp: "Verifikasi Pengguna", model: state.isVerified,
+                  //       );
+                  //     }
+                  //     return const HomeTableVerify(
+                  //       model: [], titleApp: "Verifikasi Penggunaa",
+                  //     );
+                  //   },
+                  // )
                 ],
               ),
             )),

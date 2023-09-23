@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:sapekderas/models/user_model.dart';
+part of 'get_user_cubit.dart';
 
 abstract class GetUserState extends Equatable {
   const GetUserState();
@@ -14,6 +13,7 @@ class GetUserLoading extends GetUserState {}
 
 class GetUserSuccess extends GetUserState {
   final bool isLoading;
+  final List<UserModel> isVerified;
   final List<UserModel> allData;
   final List<UserModel> successData;
   final List<UserModel> errorData;
@@ -21,6 +21,7 @@ class GetUserSuccess extends GetUserState {
 
   const GetUserSuccess({
     this.isLoading = false,
+    required this.isVerified,
     required this.allData,
     required this.successData,
     required this.errorData,
@@ -29,14 +30,15 @@ class GetUserSuccess extends GetUserState {
 
   @override
   List<Object> get props =>
-      [isLoading, allData, successData, errorData, progressData];
+      [isLoading, allData, isVerified];
 
   GetUserSuccess copyWith({
     bool? isLoading,
+    List<UserModel>? isVerified,
     List<UserModel>? allData,
     List<UserModel>? successData,
     List<UserModel>? errorData,
-    List<UserModel>? progressData
+    List<UserModel>? progressData,
   }) {
     return GetUserSuccess(
       isLoading: isLoading ?? this.isLoading,
@@ -44,6 +46,7 @@ class GetUserSuccess extends GetUserState {
       successData: successData ?? this.successData,
       errorData: errorData ?? this.errorData,
       progressData: progressData ?? this.progressData,
+      isVerified: isVerified ?? this.isVerified,
     );
   }
 }

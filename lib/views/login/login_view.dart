@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sapekderas/models/enums.dart';
 import 'package:sapekderas/models/user_model.dart';
 import 'package:sapekderas/utils/utils.dart';
 
@@ -179,4 +180,11 @@ class _LoginViewState extends State<LoginView> {
       ),
     );
   }
+}
+
+class LetterUserViewArgs {
+  final UserModel? model;
+  final Crud crud;
+
+  const LetterUserViewArgs({this.model, this.crud = Crud.create});
 }
