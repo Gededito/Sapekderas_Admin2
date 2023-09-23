@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 extension EnumToFirstUpperCase on Enum {
   String toFirstUpperCase() {
     String firstLetter = name[0].toUpperCase();
@@ -17,19 +15,13 @@ extension EnumFirstUpperCase on String {
 extension DateString on DateTime? {
   String dateString() {
     String result = "${this?.day} ${_month(this?.month)} ${this?.year}";
-    if (kDebugMode) {
-      print("dateString1: $result");
-      print("dateString1: $this");
-    }
+
     return result;
   }
 
   String dateStript() {
     String result = "${this?.day}-${_month(this?.month)}-${this?.year}";
-    if (kDebugMode) {
-      print("dateString1: $result");
-      print("dateString1: $this");
-    }
+
     return result;
   }
 }

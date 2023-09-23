@@ -146,6 +146,7 @@ LetterRip _$LetterRipFromJson(Map json) => LetterRip(
       name: json['name'] as String? ?? "",
       age: json['age'] as int? ?? 0,
       address: json['address'] as String? ?? "",
+      info: json['info'] as String? ?? "",
       deathTime: json['deathTime'] == null
           ? null
           : DateTime.parse(json['deathTime'] as String),
@@ -158,6 +159,7 @@ Map<String, dynamic> _$LetterRipToJson(LetterRip instance) => <String, dynamic>{
       'name': instance.name,
       'age': instance.age,
       'address': instance.address,
+      'info': instance.info,
       'deathTime': instance.deathTime?.toIso8601String(),
       'location': instance.location,
       'reason': instance.reason,

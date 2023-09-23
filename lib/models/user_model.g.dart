@@ -20,15 +20,18 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       email: fields[0] as String,
       password: fields[1] as String,
       id: fields[2] as String,
+      nik: fields[5] == null ? '' : fields[5] as String,
+      type: fields[7] == null ? '' : fields[7] as String,
       name: fields[3] as String,
-      isVerified: fields[4] as bool,
+      phone: fields[4] as String,
+      isVerified: fields[6] == null ? false : fields[6] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.email)
       ..writeByte(1)
@@ -38,7 +41,13 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(3)
       ..write(obj.name)
       ..writeByte(4)
-      ..write(obj.isVerified);
+      ..write(obj.phone)
+      ..writeByte(5)
+      ..write(obj.nik)
+      ..writeByte(6)
+      ..write(obj.isVerified)
+      ..writeByte(7)
+      ..write(obj.type);
   }
 
   @override
@@ -60,8 +69,11 @@ UserModel _$UserModelFromJson(Map json) => UserModel(
       email: json['email'] as String,
       password: json['password'] as String,
       id: json['id'] as String,
+      nik: json['nik'] as String? ?? "",
+      type: json['type'] as String? ?? "",
       name: json['name'] as String? ?? "",
-      isVerified: json['isVerified'] as bool? ?? false
+      phone: json['phone'] as String? ?? "",
+      isVerified: json['isVerified'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -69,5 +81,8 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'password': instance.password,
       'id': instance.id,
       'name': instance.name,
-      'isVerified': instance.isVerified.toString()
+      'phone': instance.phone,
+      'nik': instance.nik,
+      'isVerified': instance.isVerified,
+      'type': instance.type,
     };
