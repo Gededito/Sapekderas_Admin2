@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sapekderas/models/notification.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../models/user_model.dart';
 
@@ -13,6 +15,14 @@ class GetUserCubit extends Cubit<GetUserState> {
       .withConverter<UserModel>(
         fromFirestore: (snapshots, _) => UserModel.fromJson(snapshots.data()!),
         toFirestore: (user, _) => user.toJson(),
+      );
+
+  final notification = FirebaseFirestore.instance
+      .collection('notifications')
+      .withConverter<NotificationModel>(
+        fromFirestore: (snapshots, _) =>
+            NotificationModel.fromJson(snapshots.data()!),
+        toFirestore: (notification, _) => notification.toJson(),
       );
   GetUserCubit() : super(GetUserInitial());
 
@@ -43,6 +53,16 @@ class GetUserCubit extends Cubit<GetUserState> {
         if (value.docs.isNotEmpty) {
           value.docs.first.reference.set(model);
           Fluttertoast.showToast(msg: "User berhasil diverifikasi");
+
+          notification.add(
+            NotificationModel(
+              id: const Uuid().v4(),
+              message: "Account anda berhasil diverifikasi",
+              userId: model.id,
+              userType: "user",
+              createdAt: DateTime.now(),
+            ),
+          );
 
           List<UserModel> oldUser = state.allData;
 
