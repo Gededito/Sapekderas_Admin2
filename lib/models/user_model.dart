@@ -20,13 +20,26 @@ class UserModel extends Equatable {
   final String name;
 
   @HiveField(4)
-  bool isVerified;
+  final String phone;
+
+  @HiveField(5, defaultValue: "")
+  final String nik;
+
+  @HiveField(6, defaultValue: false)
+  @JsonKey(defaultValue: false)
+  final bool isVerified;
+
+  @HiveField(7, defaultValue: "")
+  final String type;
 
   UserModel({
     required this.email,
     required this.password,
     required this.id,
+    this.nik = "",
+    this.type = "",
     this.name = "",
+    this.phone = "",
     this.isVerified = false,
   });
 
@@ -34,6 +47,27 @@ class UserModel extends Equatable {
       _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  UserModel copyWith({
+    String? email,
+    String? password,
+    String? id,
+    String? name,
+    bool? isVerified,
+    String? type,
+    String? nik,
+    String? phone,
+  }) =>
+      UserModel(
+        email: email ?? this.email,
+        password: password ?? this.password,
+        id: id ?? this.id,
+        name: name ?? this.name,
+        isVerified: isVerified ?? this.isVerified,
+        phone: phone ?? this.phone,
+        nik: nik ?? this.nik,
+        type: type ?? this.type,
+      );
 
   @override
   List<Object?> get props => [email, password, id, name, isVerified];

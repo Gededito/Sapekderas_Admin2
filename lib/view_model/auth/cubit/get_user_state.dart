@@ -13,42 +13,21 @@ class GetUserLoading extends GetUserState {}
 
 class GetUserSuccess extends GetUserState {
   final bool isLoading;
-  final List<UserModel> isVerified;
   final List<UserModel> allData;
-  final List<UserModel> successData;
-  final List<UserModel> errorData;
-  final List<UserModel> progressData;
+  final int increment;
 
   const GetUserSuccess({
     this.isLoading = false,
-    required this.isVerified,
     required this.allData,
-    required this.successData,
-    required this.errorData,
-    required this.progressData,
+    this.increment = 0,
   });
 
   @override
-  List<Object> get props =>
-      [isLoading, allData, isVerified];
-
-  GetUserSuccess copyWith({
-    bool? isLoading,
-    List<UserModel>? isVerified,
-    List<UserModel>? allData,
-    List<UserModel>? successData,
-    List<UserModel>? errorData,
-    List<UserModel>? progressData,
-  }) {
-    return GetUserSuccess(
-      isLoading: isLoading ?? this.isLoading,
-      allData: allData ?? this.allData,
-      successData: successData ?? this.successData,
-      errorData: errorData ?? this.errorData,
-      progressData: progressData ?? this.progressData,
-      isVerified: isVerified ?? this.isVerified,
-    );
-  }
+  List<Object> get props => [
+        isLoading,
+        allData,
+        increment,
+      ];
 }
 
 class GetUserError extends GetUserState {
