@@ -47,25 +47,13 @@ class HomeView extends StatelessWidget {
                       if (state is GetLetterSuccess) {
                         return HomeTable(
                             models: state.progressData,
-                            titleApp: "Surat belum diambil");
+                            titleApp: "Surat yang sudah diambil");
                       }
                       return const HomeTable(
-                          models: [], titleApp: "Surat belum diambil");
+                          models: [], titleApp: "Surat yang sudah diambil");
                     },
                   ),
                   const HomeTableVerify(model: []),
-                  // BlocBuilder<GetUserCubit, GetUserState>(
-                  //   builder: (context, state) {
-                  //     if (state is GetUserSuccess) {
-                  //       return HomeTableVerify(
-                  //         titleApp: "Verifikasi Pengguna", model: state.isVerified,
-                  //       );
-                  //     }
-                  //     return const HomeTableVerify(
-                  //       model: [], titleApp: "Verifikasi Penggunaa",
-                  //     );
-                  //   },
-                  // )
                 ],
               ),
             )),

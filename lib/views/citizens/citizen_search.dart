@@ -83,7 +83,7 @@ class CitizensTable extends StatelessWidget {
       "NIK",
       "No. KK",
       "Nama",
-      "NIK",
+      "Action",
     ];
 
     return Column(
